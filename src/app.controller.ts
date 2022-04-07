@@ -1,13 +1,24 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
+import { PostService } from './post/post.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService, private readonly postService: PostService) {}
+  
+  @MessagePattern({type: 'post', action:'get_all'})
+  findAll(){
+    return this.postService.findAll()
+  }
 
-  @MessagePattern({ cmd: 'lmao' })
-  lmao(_: any) {
-    return this.appService.getHello();
+  @MessagePattern({type: 'post', action:'get_one'})
+  findOne(payload){
+    return this.postService.findOne(payload)
+  }
+
+  @MessagePattern({type: 'post', action:'create'})
+  create(payload){
+    return this.postService.create(payload)
   }
 }
