@@ -23,12 +23,41 @@ export class PostService {
     }
 
     async create(payload): Promise<any>{
-        const newPostPayload = {
-            ...payload,
-            authorId: 1,
-            published: 1,
-            createdAt: '2022-01-01'
+        try{
+            const newPostPayload = {
+                ...payload,
+                authorId: 1,
+                published: 1,
+                createdAt: '2022-01-01'
+            }
+            const addedPost = await this.postRepository.insert(newPostPayload)
+            return addedPost
         }
-        return this.postRepository.insert(newPostPayload)
+        catch(err){
+            throw new Error(err)
+        }
+    }
+
+    async edit(payload): Promise<any>{
+        try{
+            const userid = payload.userid
+            delete payload.userid
+            const updatedPost = await this.postRepository.update(userid, {...payload})
+            return updatedPost
+        }
+        catch(err){
+            throw new Error(err)
+        }
+    }
+
+    async delete(payload): Promise<any>{
+        try{
+            const userid = payload
+            const deletedPost = await this.postRepository.delete(userid)
+            return deletedPost
+        }
+        catch(err){
+            throw new Error(err)
+        }
     }
 }

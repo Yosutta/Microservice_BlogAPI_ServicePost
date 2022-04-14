@@ -10,6 +10,8 @@ async function bootstrap() {
       port: 8002,
     },
   });
-  await app.listen();
+  await app.listen()
+  // const app = await NestFactory.create(AppModule)
+  // await app.listen(4000);
 }
 bootstrap();

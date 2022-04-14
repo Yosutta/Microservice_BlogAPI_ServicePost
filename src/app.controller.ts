@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { PostService } from './post/post.service';
@@ -21,4 +21,20 @@ export class AppController {
   create(payload){
     return this.postService.create(payload)
   }
+
+  @MessagePattern({type: 'post', action:'edit'})
+  edit(payload){
+    return this.postService.edit(payload)
+  }
+
+  @MessagePattern({type: 'post', action:'delete'})
+  delete(payload){
+    return this.postService.delete(payload)
+  }
+
+  // @Post('aa')
+  // print(@Body() body: any){
+  //   console.log(body)
+  //   return this.postService.create(body)
+  // }
 }
